@@ -3,11 +3,13 @@ package com.opine.livros.resources;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,4 +35,8 @@ public class LivrosResource {
 		return livroRepository.save(livros);
 	}
 
+	@GetMapping(value= "/{id}")
+	public Optional<Livros> buscarPorId(@PathVariable Long id ) {
+		return livroRepository.findById(id);
+	}
 }
