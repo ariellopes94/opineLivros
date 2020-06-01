@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties.Servlet;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.opine.livros.domain.Livros;
-import com.opine.livros.repositories.LivroRepository;
+import com.opine.livros.repositories.LivroRepository;import ch.qos.logback.core.net.server.Client;
 
 @RestController
 @RequestMapping("/livros")
@@ -34,8 +35,8 @@ public class LivrosResource {
 	LivroRepository livroRepository;
 	
 	@GetMapping                  //Buscar Todos
-	public List<Livros> listar() {
-		return livroRepository.findAll();
+	public ResponseEntity<List<Livros>> listar() {
+		return ResponseEntity.ok().body(livroRepository.findAll());
 	}
 	
 	@PostMapping                   //Salvar
@@ -60,15 +61,22 @@ public class LivrosResource {
 	}
 	
 	@DeleteMapping(value = "{id}")  //Deletar por ID
-	public void deletarLivro(@PathVariable Long id) {
+	public ResponseEntity<Void> deletarLivro(@PathVariable Long id) {
 		
-		livroRepository.deleteById(id);
+		try {
+			livroRepository.deleteById(id);
+			
+		} catch (EmptyResultDataAccessException e) {
+		 return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping(value = "/{id}")       //Atualizar
-	public Livros atualizarLivro(@RequestBody Livros livros, @PathVariable Long id) {
+	public ResponseEntity<Livros> atualizarLivro(@RequestBody Livros livros, @PathVariable Long id) {
 		livros.setId(id);
-		return livroRepository.save(livros);
+		livroRepository.save(livros);
+		return ResponseEntity.noContent().build();
 	}
 	
 	
