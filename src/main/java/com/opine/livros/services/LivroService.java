@@ -1,6 +1,7 @@
 package com.opine.livros.services;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.opine.livros.domain.Comentario;
 import com.opine.livros.domain.Livros;
+import com.opine.livros.repositories.ComentariosRepository;
 import com.opine.livros.repositories.LivroRepository;
 import com.opine.livros.services.exceptions.LivroNaoEncontradoException;
 
@@ -17,6 +20,9 @@ public class LivroService {
 
 	@Autowired
 	private LivroRepository livroRepository;
+	
+	@Autowired
+	private ComentariosRepository comentariosRepository;
 	
 	public List<Livros> listar(){
 		return livroRepository.findAll();
@@ -54,5 +60,14 @@ public class LivroService {
 	
 	private void verificarExistencia(Livros livro) {
 		buscarPorId(livro.getId());
+	}
+	
+	public Comentario salvarComentario(Long livroid , Comentario comentario) {
+		Livros livros = buscarPorId(livroid);
+		
+		comentario.setLivro(livros);
+		comentario.setData(new Date());
+		
+		return comentariosRepository.save(comentario);
 	}
 }
