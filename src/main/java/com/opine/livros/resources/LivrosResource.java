@@ -77,5 +77,11 @@ public class LivrosResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@GetMapping(value = "{id}/comentarios")
+	public ResponseEntity<List<Comentario>> buscarComentarios(@PathVariable("id") Long livroId){
+		 List<Comentario> livroComentarios = livroService.listarComentarios(livroId);
+		 
+		 return ResponseEntity.ok().body(livroComentarios);
+	}
 	
 }
