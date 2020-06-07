@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,11 +24,14 @@ public class Autor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@NotEmpty(message = "O nome nao pode ser vazio")//Essa anotações faz parte do pacote "org.hibernate.validator.constraints" do Hibernate Validator.
 	private String nome;
 	
 	@JsonFormat(pattern =  "dd/MM/yyyy")
 	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@NotNull(message = "Campo nascimento é de preencchimento obrigatório.")
 	private Date dataNascimento;
 	
 	@OneToMany(mappedBy = "autor")

@@ -9,7 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,16 +27,20 @@ public class Livros {
 	private Long id;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL) // Quando a a variavel for Null ela nao retorna pra tela
+	@NotEmpty(message = "O campo nome não pode ser Vazio")
 	private String nome;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@JsonInclude(JsonInclude.Include.NON_NULL) // Quando a a variavel for Null ela nao retorna pra tela
+	@NotNull(message =  "O campo o publicação é obrigatorio")
 	private Date publicacao;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL) // Quando a a variavel for Null ela nao retorna pra tela
+	@NotNull(message =  "O campo o editora é obrigatorio")
 	private String editora;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL) // Quando a a variavel for Null ela nao retorna pra tela
+	
 	private String resumo;
 	
 	//OneToMany
