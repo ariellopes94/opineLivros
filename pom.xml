@@ -60,6 +60,11 @@
 			</exclusions>
 		</dependency>
 		
+		               <!-- DEPEDENCIA PAFA FUNCIONAR O RETORNO PARA XML -->
+		<dependency>
+		    <groupId> com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
