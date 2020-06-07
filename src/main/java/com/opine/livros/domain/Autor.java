@@ -10,7 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 public class Autor {
@@ -18,7 +20,12 @@ public class Autor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String nome;
+	
+	@JsonFormat(pattern =  "dd/MM/yyyy")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Date dataNascimento;
 	
 	@OneToMany(mappedBy = "autor")

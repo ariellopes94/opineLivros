@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Columns;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 
@@ -27,6 +27,7 @@ public class Livros {
 	@JsonInclude(JsonInclude.Include.NON_NULL) // Quando a a variavel for Null ela nao retorna pra tela
 	private String nome;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	@JsonInclude(JsonInclude.Include.NON_NULL) // Quando a a variavel for Null ela nao retorna pra tela
 	private Date publicacao;
 	
@@ -37,7 +38,7 @@ public class Livros {
 	private String resumo;
 	
 	//OneToMany
-	@JsonInclude(JsonInclude.Include.NON_NULL) // Quando a a variavel for Null ela nao retorna pra tela
+	@JsonInclude(JsonInclude.Include.NON_EMPTY) // Quando a a variavel for VAZIO ela nao retorna pra tela
 	//@Transient //Hibernate desconsiderar
 	
 	@OneToMany(mappedBy = "livro")
