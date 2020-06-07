@@ -3,13 +3,14 @@ package com.opine.livros.domain;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+
+import org.hibernate.annotations.Columns;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -42,8 +43,9 @@ public class Livros {
 	@OneToMany(mappedBy = "livro")
 	private List<Comentario> comentarios;
 	
+	@ManyToOne
 	@JsonInclude(JsonInclude.Include.NON_NULL) // Quando a a variavel for Null ela nao retorna pra tela
-	private String autor;
+	private Autor autor;
 	
 	public Livros() {
 		
@@ -89,10 +91,10 @@ public class Livros {
 	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
-	public String getAutor() {
+	public Autor getAutor() {
 		return autor;
 	}
-	public void setAutor(String autor) {
+	public void setAutor(Autor autor) {
 		this.autor = autor;
 	}
 
