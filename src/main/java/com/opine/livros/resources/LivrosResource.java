@@ -2,11 +2,10 @@ package com.opine.livros.resources;
 
 import java.net.URI;
 import java.util.List;
-
-
-
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,8 +48,16 @@ public class LivrosResource {
 
 	@GetMapping(value= "/{id}")    //Buscar por ID
 	public ResponseEntity<Livros> buscarPorId(@PathVariable Long id ) {
+		
+		//Salvar a get na memoria Cache do cliente 
+		//CacheControl cacheControl = CacheControl.maxAge(20, TimeUnit.SECONDS);
+		
+		//CacheControl cacheControl = CacheControl.maxAge(35, TimeUnit.SECONDS);
 		Livros livro = livroService.buscarPorId(id); 
-	    return  ResponseEntity.ok().body(livro);
+	    return  ResponseEntity.ok().cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+	    		.body(livro);
+	    
+	    
 	}
 	
 	
