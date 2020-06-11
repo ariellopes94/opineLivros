@@ -4,9 +4,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,6 +81,11 @@ public class LivrosResource {
 	@RequestMapping(value = "{id}/comentarios")
 	public ResponseEntity<Void> adicionarCometario(@PathVariable("id") Long livroId , 
 			                       @RequestBody Comentario comentario) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		comentario.setUsuario(auth.getName());
+		
 		livroService.salvarComentario(livroId, comentario);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
